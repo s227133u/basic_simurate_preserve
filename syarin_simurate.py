@@ -23,13 +23,9 @@ Y_K = 0.3 #y0
 DISK_OFFSET = 0.02
 
 
-
-
-
-
-
+#buturi-prm
 M = 2.00 #[kg]
-A = 0.1 #[m/s]
+A = 0.1 #[m]
 GRAVITY = 9.80665  #重力加速度
 J = M * A**2 / 2  
 
@@ -63,15 +59,19 @@ def func_motion(t, y): #yは状態ベクトル
     return dydt
 
 
+#plot graph
+def plot2dn(fig,ax_g,t_list_list, y_list_list, t_label_list, y_label_list):
 
-def plot2dn(fig,ax_a,t_list, y_list, t_label, y_label):
-     ax_a.plot(t_list, y_list) 
-     ax_a.set_xlabel(t_label)
-     ax_a.set_ylabel(y_label)
-     ax_a.grid()
+     for axg in ax_g:
+        i = 0
+        axg.plot(t_list_list[0], y_list_list[0]) 
+        axg.set_xlabel(t_label_list[i])
+        axg.set_ylabel(y_label_list[i])
+        axg.grid()
+        i = i+1
 
 
-     # for _ax_a in ax_a:
+         
 
 
 
@@ -93,6 +93,10 @@ def plotDisk(ax_a,x_d): #円盤プロット
          y_d = CIR_R 
     disk = patches.Circle(xy=(x_d + X_K, CIR_R + y_d), radius=CIR_R,fc="w" ,ec='k')
 
+    #diplay disk's rad
+    disk_rad = (x_d % 2*np.pi*A) /A 
+    disk_rot = [(x_d + X_K,CIR_R + y_d),(x_d + X_K + CIR_R*np.sin(disk_rad), CIR_R + y_d + CIR_R*np.cos(disk_rad))]
+
 
     #rot
     rot1 = [(-X_MAX -X_P + X_K,Y_K+Y_MAX),(-X_P + X_K, Y_K)]
@@ -103,11 +107,12 @@ def plotDisk(ax_a,x_d): #円盤プロット
    
     #plot
     ax_a.add_patch(disk)
-    collection=collections.LineCollection([rot1,rot2,rot3],color=["black"])
-    ax_a.add_collection(collection)
+    collection0=collections.LineCollection([disk_rot],color=["red"])
+    collection1=collections.LineCollection([rot1,rot2,rot3],color=["black"])
+    ax_a.add_collection(collection0)
+    ax_a.add_collection(collection1)
 
-
-    plt.pause(0.00001)
+    #plt.pause(0.00001)
 
 
 def scanKeyBoard():
@@ -126,6 +131,11 @@ def scanKeyBoard():
          
         case _:
             return 0
+        
+
+
+
+
 
 
 
@@ -142,10 +152,17 @@ def main():
 	#solve diffeq
         t_span = [0, 8]
         t = np.arange(0, t_span[1], 0.01)
-        y0 = [4, -2]
-        sol = solve_ivp(func_motion, t_span, y0, t_eval = t)
+        y0 = [3, -15]
+        sol = solve_ivp(func_motion, t_span, y0, t_eval = t)     
+        xd_a = sol.y[0,:] #list
         
-        xd_a = sol.y[0,:] #結果がリストで渡される
+        # #plot
+        # fig_g,ax_g = plt.subplots(nrows=4,ncols=1,figsize=(5,5))
+        # t_list = [t,t,t,t]
+        # y_list = [xd_a,xd_a,xd_a,xd_a]
+        # y_label = ["aaaa","bbbb","cccc","dddd"]
+        # t_label = ["t","t","t","t"]
+        # plot2dn(fig_g,ax_g,t_list_list=t_list,y_list_list=y_list,t_label_list=t_label,y_label_list=y_label)
         
 	#loop
         for xd in xd_a:
@@ -153,8 +170,7 @@ def main():
 
 
 
-        # #plot
-        # fig,ax_a = plt.subplots(nrows=4,ncols=1,figsize=(5,5))
+
 
 
         # for i in range(4):
