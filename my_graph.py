@@ -16,12 +16,12 @@ fig_g,ax_g = plt.subplots(nrows=4,ncols=1,figsize=(5,5))
 #plot graph
 def plot2dn(t_list_list, y_list_list, t_label_list, y_label_list):
 
-
+     i=0
      for axg in ax_g:
-        i = 0
-        axg.cla() #本来はpltだった
-        axg.plot(t_list_list[i], y_list_list[i]) 
-        axg.set_xlabel(t_label_list[i])
-        axg.set_ylabel(y_label_list[i])
-        axg.grid()
+        #ax_g[i].cla() #本来はpltだった
+        ax_g[i].plot(t_list_list[i], y_list_list[i]) 
+        aaa=t_list_list[i]
+        ax_g[i].set_xlabel(t_label_list[i])
+        ax_g[i].set_ylabel(y_label_list[i])
+        ax_g[i].grid()
         i = i+1

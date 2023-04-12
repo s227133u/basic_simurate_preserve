@@ -22,7 +22,7 @@ def main():
 	#solve diffeq
         t_span = [0, 2]
         t = np.arange(0, t_span[1], 0.01)
-        y0 = [3, -15]
+        y0 = [3, -5]
         sol = solve_ivp(moderu.func_motion, t_span, y0, t_eval = t)     
         xd_a = sol.y[0,:] #list
         wd_a = sol.y[1,:]
