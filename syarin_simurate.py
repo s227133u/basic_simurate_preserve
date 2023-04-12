@@ -78,7 +78,7 @@ def plot2dn(fig,ax_g,t_list_list, y_list_list, t_label_list, y_label_list):
 def plotDisk(ax_a,x_d): #円盤プロット
 
     #config
-    plt.cla()
+    ax_a.cla() #本来はpltだった
     plt.ion()
     ax_a.set_xlim(-WINDOW_SIZE[0] * 1/2,WINDOW_SIZE[0] * 1/2)
     ax_a.set_ylim(0,WINDOW_SIZE[1])
@@ -112,7 +112,7 @@ def plotDisk(ax_a,x_d): #円盤プロット
     ax_a.add_collection(collection0)
     ax_a.add_collection(collection1)
 
-    #plt.pause(0.00001)
+    plt.pause(0.00001)
 
 
 def scanKeyBoard():
@@ -156,15 +156,15 @@ def main():
         sol = solve_ivp(func_motion, t_span, y0, t_eval = t)     
         xd_a = sol.y[0,:] #list
         
-        # #plot
-        # fig_g,ax_g = plt.subplots(nrows=4,ncols=1,figsize=(5,5))
-        # t_list = [t,t,t,t]
-        # y_list = [xd_a,xd_a,xd_a,xd_a]
-        # y_label = ["aaaa","bbbb","cccc","dddd"]
-        # t_label = ["t","t","t","t"]
-        # plot2dn(fig_g,ax_g,t_list_list=t_list,y_list_list=y_list,t_label_list=t_label,y_label_list=y_label)
+        #plot
+        fig_g,ax_g = plt.subplots(nrows=4,ncols=1,figsize=(5,5))
+        t_list = [t,t,t,t]
+        y_list = [xd_a,xd_a,xd_a,xd_a]
+        y_label = ["aaaa","bbbb","cccc","dddd"]
+        t_label = ["t","t","t","t"]
+        plot2dn(fig_g,ax_g,t_list_list=t_list,y_list_list=y_list,t_label_list=t_label,y_label_list=y_label)
         
-	#loop
+    #loop
         for xd in xd_a:
             plotDisk(ax_a,xd)
 
